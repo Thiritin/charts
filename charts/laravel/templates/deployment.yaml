@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "laravel-helm-deployment.fullname" . }}
+  name: {{ include "laravel.fullname" . }}
   labels:
-    {{- include "laravel-helm-deployment.labels" . | nindent 4 }}
+    {{- include "laravel.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "laravel-helm-deployment.selectorLabels" . | nindent 6 }}
+      {{- include "laravel.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,7 +18,7 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "laravel-helm-deployment.labels" . | nindent 8 }}
+        {{- include "laravel.labels" . | nindent 8 }}
         {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
         {{- end }}
@@ -27,7 +27,7 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "laravel-helm-deployment.serviceAccountName" . }}
+      serviceAccountName: {{ include "laravel.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
