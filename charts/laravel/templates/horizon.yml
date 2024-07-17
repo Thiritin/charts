@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "laravel.fullname" . }}-horizon
+  labels:
+    app: {{ include "laravel.fullname" . }}-horizon
+    {{- include "laravel.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.horizon.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "laravel.fullname" . }}-horizon
+  template:
+    metadata:
+      name: {{ include "laravel.fullname" . }}-horizon
+      labels:
+        app: {{ include "laravel.fullname" . }}-horizon
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: horizon
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - php
+            - artisan
+            - horizon
+          envFrom:
+            - secretRef:
+                name: {{ include "laravel.fullname" . }}-env
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}

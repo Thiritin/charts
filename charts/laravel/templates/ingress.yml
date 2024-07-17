@@ -1,0 +1,45 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "laravel.fullname" . }}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-live
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+  labels:
+    name: {{ include "laravel.fullname" . }}-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: {{ include "laravel.fullname" . }}-app
+                port:
+                  name: http
+          # REVERB #################################################
+          - pathType: Prefix
+            path: "/app"
+            backend:
+              service:
+                name: {{ include "laravel.fullname" . }}-reverb
+                port:
+                  name: reverb
+          # STORAGE & BUILD ########################################
+          - pathType: Prefix
+            path: "/storage"
+            backend:
+              service:
+                name: {{ include "laravel.fullname" . }}-caddy
+                port:
+                  name: http-static
+  tls:
+    - hosts:
+        - signage.eurofurence.org
+      secretName: signage-certificate
+    - hosts:
+        - signage.thiritin.com
+      secretName: signage-thiritin-certificate

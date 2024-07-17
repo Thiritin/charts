@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "laravel.fullname" . }}-redis
+  labels:
+    app: {{ include "laravel.fullname" . }}-redis
+    {{- include "laravel.labels" . | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ include "laravel.fullname" . }}-redis
+  template:
+    metadata:
+      labels:
+        app: {{ include "laravel.fullname" . }}-redis
+    spec:
+      containers:
+        - name: redis
+          image: "{{ .Values.redis.image.repository }}:{{ .Values.redis.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+            - name: MASTER
+              value: "true"
+          ports:
+            - containerPort: 6379
+          resources:
+            {{- toYaml .Values.redis.resources | nindent 12 }}
+          volumeMounts:
+            - mountPath: /redis-master-data
+              name: data
+      volumes:
+        - name: data
+          emptyDir: { }
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "laravel.fullname" . }}-redis
+  labels:
+    {{- include "laravel.labels" . | nindent 4 }}
+spec:
+  selector:
+    app: {{ include "laravel.fullname" . }}-redis
+  ports:
+    - port: 6379
+      targetPort: 6379
+      name: redis

@@ -7,9 +7,9 @@ metadata:
   annotations:
     "helm.sh/hook": test
 spec:
+  restartPolicy: Never
   containers:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "laravel.fullname" . }}:{{ .Values.service.port }}']
-  restartPolicy: Never
+      args: ['{{ include "laravel.fullname" . }}:80']

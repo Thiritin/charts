@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "laravel.fullname" . }}-cron
+  labels:
+    {{- include "laravel.labels" . | nindent 4 }}
+spec:
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  schedule: "* * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      ttlSecondsAfterFinished: 300
+      activeDeadlineSeconds: 75
+      template:
+        spec:
+          restartPolicy: "OnFailure"
+          containers:
+            - name: cron
+              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: {{ .Values.image.pullPolicy }}
+              resources:
+                {{- toYaml .Values.cron.resources | nindent 16 }}
+              command:
+                - php
+                - artisan
+                - schedule:run
+              envFrom:
+                - secretRef:
+                    name: {{ include "laravel.fullname" . }}-env

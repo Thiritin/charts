@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "laravel.fullname" . }}-reverb
+  labels:
+    app: {{ include "laravel.fullname" . }}-reverb
+    {{- include "laravel.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.reverb.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "laravel.fullname" . }}-reverb
+  template:
+    metadata:
+      name: {{ include "laravel.fullname" . }}-reverb
+      labels:
+        app: {{ include "laravel.fullname" . }}-reverb
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: reverb
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - php
+            - artisan
+            - reverb:start
+          ports:
+            - containerPort: 8080
+              name: reverb
+          envFrom:
+            - secretRef:
+                name: {{ include "laravel.fullname" . }}-env
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "laravel.fullname" . }}-reverb
+spec:
+  selector:
+    app: {{ include "laravel.fullname" . }}-reverb
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: reverb
