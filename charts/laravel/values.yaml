@@ -1,15 +1,19 @@
 app:
   replicaCount: 1
+  migrate:
+    enabled: true
+    seed: false
   resources:
     requests:
-      memory: 20Mi
+      memory: 512Mi
       cpu: 5m
     limits:
-      memory: 500Mi
+      memory: 1024Mi
       cpu: 1000m
   pdb:
     minAvailable: 1
 horizon:
+  enabled: false
   replicaCount: 1
   resources:
     requests:
@@ -37,6 +41,7 @@ queue:
       cpu: 1000m
 reverb:
   replicaCount: 1
+  enabled: false
   resources:
     requests:
       memory: 20Mi
@@ -44,7 +49,10 @@ reverb:
     limits:
       memory: 500Mi
       cpu: 1000m
+
+# bitnami redis!
 redis:
+  enabled: false
   replicaCount: 1
   resources:
     requests:
@@ -53,6 +61,21 @@ redis:
     limits:
       memory: 2Gi
       cpu: 2
+
+infisical:
+  enabled: false
+  hostAPI: http://infisical-infisical-standalone-infisical.infisical.svc.cluster.local/api
+  projectSlug: your-project-slug
+  envSlug: dev
+  secretsPath: "/"
+  recursive: true
+  credentialsRef:
+    secretName: universal-auth-credentials
+    secretNamespace: infisical
+  managedSecretReference:
+    secretName: managed-secret
+    creationPolicy: "Owner"
+
 ingress:
   host: ef-streaming.eurofurence.org
   annotations: {}

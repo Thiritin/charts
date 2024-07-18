@@ -28,4 +28,4 @@ spec:
                 - schedule:run
               envFrom:
                 - secretRef:
-                    name: {{ include "laravel.fullname" . }}-env
+                    name: {{ include "laravel.managedSecretReferenceSecretName" . }}

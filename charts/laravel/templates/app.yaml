@@ -4,6 +4,8 @@ metadata:
   name: {{ include "laravel.fullname" . }}-app
   labels:
     {{- include "laravel.labels" . | nindent 4 }}
+  annotations:
+    secrets.infisical.com/auto-reload: "true"
 spec:
   replicas: {{ .Values.app.replicaCount }}
   selector:
@@ -35,9 +37,10 @@ spec:
           readinessProbe:
             tcpSocket:
               port: 80
+            initialDelaySeconds: 5
           envFrom:
             - secretRef:
-                name: {{ include "laravel.fullname" . }}-env
+                name: {{ include "laravel.managedSecretReferenceSecretName" . }}
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
           ports:

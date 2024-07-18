@@ -1,3 +1,4 @@
+{{ if .Values.app.migrate.enabled }}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -5,7 +6,7 @@ metadata:
   labels:
     {{- include "laravel.labels" . | nindent 4 }}
   annotations:
-    "helm.sh/hook": pre-install,pre-upgrade
+    "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-weight": "0"
     "helm.sh/hook-delete-policy": before-hook-creation
 spec:
@@ -17,7 +18,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           envFrom:
             - secretRef:
-                name: {{ include "laravel.fullname" . }}-env
+                name: {{ include "laravel.managedSecretReferenceSecretName" . }}
           resources:
             {{- toYaml .Values.app.resources | nindent 12 }}
           args:
@@ -25,5 +26,8 @@ spec:
             - artisan
             - migrate
             - --force
+            {{- if .Values.app.migrate.seed }}
             - --seed
+            {{- end }}
       restartPolicy: OnFailure
+{{- end }}

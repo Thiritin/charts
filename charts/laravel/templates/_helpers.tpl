@@ -60,3 +60,11 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{- define "laravel.managedSecretReference" -}}
+{{- printf "%s-%s" (include "laravel.fullname" .) .Values.infisical.managedSecretReference.secretName | trunc 63 | trimSuffix "-" }}
+{{- end }}
+
+{{- define "laravel.managedSecretReferenceSecretName" -}}
+{{- printf "%s-%s" (include "laravel.fullname" .) .Values.infisical.managedSecretReference.secretName | trunc 63 | trimSuffix "-" }}
+{{- end }}

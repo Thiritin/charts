@@ -38,8 +38,5 @@ spec:
                   name: http-static
   tls:
     - hosts:
-        - signage.eurofurence.org
-      secretName: signage-certificate
-    - hosts:
-        - signage.thiritin.com
-      secretName: signage-thiritin-certificate
+        - {{ .Values.ingress.host }}
+      secretName: {{ include "laravel.fullname" . }}-certificate

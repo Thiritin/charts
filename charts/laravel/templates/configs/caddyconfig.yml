@@ -8,7 +8,7 @@ metadata:
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 data:
-  laravel.conf: |-
+  Caddyfile: |-
     :8080 {
         root * /app/public
         file_server
