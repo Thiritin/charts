@@ -3,6 +3,21 @@ entries:
   laravel:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2024-07-18T05:26:07.535956312Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.6.2
+    description: A Helm chart for Kubernetes
+    digest: be9c0c9689aaa5dd686f4489d7bc8fb575ecbb29aa97eae86563ca33fce7c833
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/Thiritin/charts/releases/download/laravel-0.2.0/laravel-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2024-07-14T09:51:43.309423857Z"
     description: A Helm chart for Kubernetes
     digest: 70c1cc89f5cf9d1ecee6e2628f88599ad2c5fea81ab744735a8cbe94c331056a
@@ -11,4 +26,4 @@ entries:
     urls:
     - https://github.com/Thiritin/laravel-helm-deployment/releases/download/laravel-0.1.0/laravel-0.1.0.tgz
     version: 0.1.0
-generated: "2024-07-14T09:51:43.309434988Z"
+generated: "2024-07-18T05:26:07.535968214Z"
