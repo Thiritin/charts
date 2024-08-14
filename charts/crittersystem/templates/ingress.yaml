@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "critter.fullname" . }}-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-live
+    nginx.ingress.kubernetes.io/proxy-body-size: 32m
+  labels:
+    name: {{ include "critter.fullname" . }}-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: {{ .Values.ingress.host }}
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: {{ include "critter.fullname" . }}-app
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - {{ .Values.ingress.host }}
+      secretName: {{ include "critter.fullname" . }}-certificate

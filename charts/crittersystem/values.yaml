@@ -1,0 +1,28 @@
+replicaCount: 3
+
+image:
+  repository: eurofurence/crittersystem
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  host: critter.eurofurence.org
+
+infisical:
+  enabled: false
+  hostAPI: http://infisical-infisical-standalone-infisical.infisical.svc.cluster.local/api
+  projectSlug: your-project-slug
+  envSlug: dev
+  secretsPath: "/"
+  recursive: true
+  credentialsRef:
+    secretName: universal-auth-credentials
+    secretNamespace: infisical
+  managedSecretReference:
+    secretName: managed-secret
+    creationPolicy: "Owner"
