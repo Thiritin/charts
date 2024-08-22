@@ -60,14 +60,14 @@ data:
             'faq.faq' => [env('FAQ_URL', '/faq'), 'faq.view'],
 
             // Contact email address, linked on every page
-            'Contact' => env('CONTACT_EMAIL', 'mailto:ticket@c3heaven.de'),
+            'Contact' => env('CONTACT_EMAIL', 'mailto:eurofurence-critter@schattentinte.de'),
         ],
 
         // Other ways to ask the heaven
         // Multiple contact options / links are possible, analogue to footer_items
         'contact_options' => [
             // E-mail address
-            'general.email' => env('CONTACT_EMAIL', 'mailto:ticket@c3heaven.de'),
+            'general.email' => env('CONTACT_EMAIL', 'mailto:critter@eurofurence.org'),
         ],
 
         // Additional text displayed on the FAQ page, rendered as markdown
@@ -82,7 +82,7 @@ data:
             'driver' => env('MAIL_DRIVER', 'mail'),
             'from' => [
                 // From address of all emails
-                'address' => env('MAIL_FROM_ADDRESS', 'noreply@example.com'),
+                'address' => env('MAIL_FROM_ADDRESS', 'critter@eurofurence.org'),
                 'name' => env('MAIL_FROM_NAME', env('APP_NAME', 'Engelsystem')),
             ],
 
@@ -346,10 +346,10 @@ data:
         // 'none' => no goodie at all
         // 'goodie' => a goodie which has no sizing options
         // 'tshirt' => goodie that is called tshirt and has sizing options
-        'goodie_type' => env('GOODIE_TYPE', 'goodie'),
+        'goodie_type' => env('GOODIE_TYPE', 'none'),
 
         // Enable (food) vouchers
-        'enable_voucher' => (bool) env('ENABLE_VOUCHER', true),
+        'enable_voucher' => (bool) env('ENABLE_VOUCHER', false),
 
         // Number of shifts to freeload until a user is locked from shift signup.
         'max_freeloadable_shifts' => env('MAX_FREELOADABLE_SHIFTS', 2),
@@ -425,7 +425,7 @@ data:
         'metrics' => [
             // User work buckets in seconds
             'work' => [1 * 60 * 60, 1.5 * 60 * 60, 2 * 60 * 60, 3 * 60 * 60, 5 * 60 * 60, 10 * 60 * 60, 20 * 60 * 60],
-            'voucher' => [0, 1, 2, 3, 5, 10, 15, 20],
+            'voucher' => [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
         ],
 
         // Shifts overview
@@ -468,8 +468,8 @@ data:
 
         // A list of credits
         'credits' => [
-            'Contribution' => 'Please visit [engelsystem/engelsystem](https://github.com/engelsystem/engelsystem) if '
-                .'you want to contribute, have found any [bugs](https://github.com/engelsystem/engelsystem/issues) '
+            'Contribution' => 'Please visit [eurofurence/crittersystem](https://github.com/eurofurence/crittersystem) if '
+                .'you want to contribute, have found any [bugs](https://github.com/eurofurence/crittersystem/issues) '
                 .'or need help.',
         ],
 
