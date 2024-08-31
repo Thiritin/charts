@@ -3,6 +3,15 @@ entries:
   crittersystem:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2024-08-31T21:01:59.372829629Z"
+    description: A Helm chart for deploying the CritterSystem application
+    digest: 89614d56e224f9fb5f07d0926d603fe49bb4b589d58a522088f89812cf6ba519
+    name: crittersystem
+    urls:
+    - https://github.com/Thiritin/charts/releases/download/crittersystem-0.2.0/crittersystem-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2024-08-14T16:39:40.864781215Z"
     description: A Helm chart for deploying the CritterSystem application
     digest: 460d65e49b7cab77aa2f110f957034375655503079740f147ce8f40fa603c292
@@ -51,4 +60,4 @@ entries:
     urls:
     - https://github.com/Thiritin/laravel-helm-deployment/releases/download/laravel-0.1.0/laravel-0.1.0.tgz
     version: 0.1.0
-generated: "2024-08-14T16:39:40.864797265Z"
+generated: "2024-08-31T21:01:59.372845859Z"
