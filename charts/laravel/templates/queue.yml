@@ -1,0 +1,36 @@
+{{- if .Values.queue.enabled -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "laravel.fullname" . }}-queue
+  labels:
+    app: {{ include "laravel.fullname" . }}-queue
+    {{- include "laravel.labels" . | nindent 4 }}
+  annotations:
+    secrets.infisical.com/auto-reload: "true"
+spec:
+  replicas: {{ .Values.queue.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "laravel.fullname" . }}-queue
+  template:
+    metadata:
+      name: {{ include "laravel.fullname" . }}-queue
+      labels:
+        app: {{ include "laravel.fullname" . }}-queue
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: queue
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - php
+            - artisan
+            - queue:work
+          envFrom:
+            - secretRef:
+                name: {{ include "laravel.managedSecretReferenceSecretName" . }}
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
+{{- end }}
