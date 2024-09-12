@@ -28,6 +28,7 @@ spec:
             - php
             - artisan
             - queue:work
+            - --memory=512
           envFrom:
             - secretRef:
                 name: {{ include "laravel.managedSecretReferenceSecretName" . }}
