@@ -164,7 +164,7 @@ data:
         // To disable a theme in config.php, you can set its value to null
         'themes' => [
             20 => [
-                'name' => 'Eurofurence 2024 - Cyberpunk ',
+                'name' => 'Eurofurence 2024 - Cyberpunk',
                 'type' => 'dark',
                 'navbar_classes' => 'navbar-dark',
             ],
