@@ -282,7 +282,17 @@ data:
 
         // URL to external registration page, linked from login page
         'external_registration_url' => env('EXTERNAL_REGISTRATION_URL'),
-
+        
+        // Policy features
+        'policy'                => [
+            // Adds the prefix to the visual text but do not affect the link
+            'telegram_visual_prefix' => '', //keep it empty - users without telegram, may be buggy
+            // Non-staff others profile link generation - False = empty link / True = message
+            'non_staff_message_shortcut' => true,
+            // Non-Staff - Use Telegram for message. False > uses internal message system
+            'non_staff_message_via_telegram' => true,
+        ],
+        
         // Required user fields
         'required_user_fields' => [
             'pronoun' => (bool) env('PRONOUN_REQUIRED', false),
