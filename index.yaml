@@ -3,6 +3,15 @@ entries:
   crittersystem:
   - apiVersion: v2
     appVersion: "1.0"
+    created: "2024-09-15T14:28:20.746137905Z"
+    description: A Helm chart for deploying the CritterSystem application
+    digest: 8f5c945e9cb9e4f4ed100fb5538ba7dca4ad171be1da7c2a38a4fcf2e8d7ddf4
+    name: crittersystem
+    urls:
+    - https://github.com/Thiritin/charts/releases/download/crittersystem-0.2.2/crittersystem-0.2.2.tgz
+    version: 0.2.2
+  - apiVersion: v2
+    appVersion: "1.0"
     created: "2024-09-11T17:50:09.102476787Z"
     description: A Helm chart for deploying the CritterSystem application
     digest: 1a5a6debaddc52b481340f65f73b4d29545f861d62c6989ec5d3c3d956de22e0
@@ -29,6 +38,21 @@ entries:
     - https://github.com/Thiritin/charts/releases/download/crittersystem-0.1.0/crittersystem-0.1.0.tgz
     version: 0.1.0
   laravel:
+  - apiVersion: v2
+    appVersion: 1.16.0
+    created: "2024-09-15T14:28:20.904185367Z"
+    dependencies:
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.6.2
+    description: A Helm chart for Kubernetes
+    digest: eeff01c086ef72af26922adda7727dec0a6cdad43f9ca1fd17fa6581215da2c5
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/Thiritin/charts/releases/download/laravel-0.2.4/laravel-0.2.4.tgz
+    version: 0.2.4
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2024-09-12T08:06:47.753277487Z"
@@ -99,4 +123,4 @@ entries:
     urls:
     - https://github.com/Thiritin/laravel-helm-deployment/releases/download/laravel-0.1.0/laravel-0.1.0.tgz
     version: 0.1.0
-generated: "2024-09-12T08:06:47.753293136Z"
+generated: "2024-09-15T14:28:20.904207599Z"
