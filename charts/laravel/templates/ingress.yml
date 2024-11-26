@@ -20,6 +20,7 @@ spec:
                 name: {{ include "laravel.fullname" . }}-app
                 port:
                   name: http
+{{ if .Values.reverb.enabled }}
           # REVERB #################################################
           - pathType: Prefix
             path: "/app"
@@ -28,6 +29,7 @@ spec:
                 name: {{ include "laravel.fullname" . }}-reverb
                 port:
                   name: reverb
+{{- end }}
           # STORAGE & BUILD ########################################
           - pathType: Prefix
             path: "/storage"
