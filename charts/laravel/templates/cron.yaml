@@ -1,31 +1,36 @@
-apiVersion: batch/v1
-kind: CronJob
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: {{ include "laravel.fullname" . }}-cron
+  name: {{ include "laravel.fullname" . }}-scheduler
   labels:
+    app: {{ include "laravel.fullname" . }}-scheduler
     {{- include "laravel.labels" . | nindent 4 }}
+  annotations:
+    secrets.infisical.com/auto-reload: "true"
 spec:
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 1
-  schedule: "* * * * *"
-  concurrencyPolicy: Forbid
-  jobTemplate:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: {{ include "laravel.fullname" . }}-scheduler
+  template:
+    metadata:
+      name: {{ include "laravel.fullname" . }}-scheduler
+      labels:
+        app: {{ include "laravel.fullname" . }}-scheduler
     spec:
-      ttlSecondsAfterFinished: 300
-      activeDeadlineSeconds: 75
-      template:
-        spec:
-          restartPolicy: "OnFailure"
-          containers:
-            - name: cron
-              image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
-              imagePullPolicy: {{ .Values.image.pullPolicy }}
-              resources:
-                {{- toYaml .Values.cron.resources | nindent 16 }}
-              command:
-                - php
-                - artisan
-                - schedule:run
-              envFrom:
-                - secretRef:
-                    name: {{ include "laravel.managedSecretReferenceSecretName" . }}
+      restartPolicy: Always
+      containers:
+        - name: scheduler
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - php
+            - artisan
+            - schedule:work
+          envFrom:
+            - secretRef:
+                name: {{ include "laravel.managedSecretReferenceSecretName" . }}
+          resources:
+            {{- toYaml .Values.app.resources | nindent 12 }}
