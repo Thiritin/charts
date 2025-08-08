@@ -79,6 +79,7 @@ infisical:
 
 ingress:
   host: ef-streaming.eurofurence.org
+  pathPrefix: ""  # Set to "/your-app" to host under domain.com/your-app
   annotations: {}
 
 image:

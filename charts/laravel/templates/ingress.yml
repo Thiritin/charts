@@ -5,6 +5,9 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-live
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
+{{- if .Values.ingress.pathPrefix }}
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+{{- end }}
   labels:
     name: {{ include "laravel.fullname" . }}-ingress
 spec:
@@ -13,8 +16,13 @@ spec:
     - host: {{ .Values.ingress.host }}
       http:
         paths:
+{{- if .Values.ingress.pathPrefix }}
+          - pathType: Prefix
+            path: "{{ .Values.ingress.pathPrefix }}(/|$)(.*)"
+{{- else }}
           - pathType: Prefix
             path: "/"
+{{- end }}
             backend:
               service:
                 name: {{ include "laravel.fullname" . }}-app
@@ -23,7 +31,11 @@ spec:
 {{ if .Values.reverb.enabled }}
           # REVERB #################################################
           - pathType: Prefix
+{{- if .Values.ingress.pathPrefix }}
+            path: "{{ .Values.ingress.pathPrefix }}/app(/|$)(.*)"
+{{- else }}
             path: "/app"
+{{- end }}
             backend:
               service:
                 name: {{ include "laravel.fullname" . }}-reverb
@@ -32,7 +44,11 @@ spec:
 {{- end }}
           # STORAGE & BUILD ########################################
           - pathType: Prefix
+{{- if .Values.ingress.pathPrefix }}
+            path: "{{ .Values.ingress.pathPrefix }}/storage(/|$)(.*)"
+{{- else }}
             path: "/storage"
+{{- end }}
             backend:
               service:
                 name: {{ include "laravel.fullname" . }}-caddy
