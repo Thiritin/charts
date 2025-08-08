@@ -5,9 +5,6 @@ metadata:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-live
     nginx.ingress.kubernetes.io/proxy-body-size: 32m
-{{- if .Values.ingress.pathPrefix }}
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-{{- end }}
   labels:
     name: {{ include "laravel.fullname" . }}-ingress
 spec:
@@ -18,7 +15,7 @@ spec:
         paths:
 {{- if .Values.ingress.pathPrefix }}
           - pathType: Prefix
-            path: "{{ .Values.ingress.pathPrefix }}(/|$)(.*)"
+            path: "{{ .Values.ingress.pathPrefix }}"
 {{- else }}
           - pathType: Prefix
             path: "/"
@@ -32,7 +29,7 @@ spec:
           # REVERB #################################################
           - pathType: Prefix
 {{- if .Values.ingress.pathPrefix }}
-            path: "{{ .Values.ingress.pathPrefix }}/app(/|$)(.*)"
+            path: "{{ .Values.ingress.pathPrefix }}/app"
 {{- else }}
             path: "/app"
 {{- end }}
@@ -45,7 +42,7 @@ spec:
           # STORAGE & BUILD ########################################
           - pathType: Prefix
 {{- if .Values.ingress.pathPrefix }}
-            path: "{{ .Values.ingress.pathPrefix }}/storage(/|$)(.*)"
+            path: "{{ .Values.ingress.pathPrefix }}/storage"
 {{- else }}
             path: "/storage"
 {{- end }}
