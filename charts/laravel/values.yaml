@@ -51,6 +51,24 @@ reverb:
       memory: 500Mi
       cpu: 1000m
 
+typesense:
+  enabled: false
+  replicaCount: 1
+  image:
+    repository: typesense/typesense
+    tag: "27.1"
+    pullPolicy: IfNotPresent
+  resources:
+    requests:
+      memory: 512Mi
+      cpu: 100m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+  storage:
+    size: 10Gi
+    storageClass: ""
+
 # bitnami redis!
 redis:
   enabled: false

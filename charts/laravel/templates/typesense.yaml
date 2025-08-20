@@ -1,0 +1,86 @@
+{{- if .Values.typesense.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "laravel.fullname" . }}-typesense
+  labels:
+    {{- include "laravel.labels" . | nindent 4 }}
+  annotations:
+    secrets.infisical.com/auto-reload: "true"
+spec:
+  replicas: {{ .Values.typesense.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ include "laravel.fullname" . }}-typesense
+      {{- include "laravel.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "laravel.fullname" . }}-typesense
+        {{- include "laravel.labels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: typesense
+          image: "{{ .Values.typesense.image.repository }}:{{ .Values.typesense.image.tag }}"
+          imagePullPolicy: {{ .Values.typesense.image.pullPolicy }}
+          ports:
+            - containerPort: 8108
+              name: http
+          envFrom:
+            - secretRef:
+                name: {{ include "laravel.managedSecretReferenceSecretName" . }}
+          env:
+            - name: TYPESENSE_DATA_DIR
+              value: "/typesense-data"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8108
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8108
+            initialDelaySeconds: 5
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.typesense.resources | nindent 12 }}
+          volumeMounts:
+            - name: typesense-data
+              mountPath: /typesense-data
+      volumes:
+        - name: typesense-data
+          persistentVolumeClaim:
+            claimName: {{ include "laravel.fullname" . }}-typesense-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "laravel.fullname" . }}-typesense-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: {{ .Values.typesense.storage.size }}
+  {{- if .Values.typesense.storage.storageClass }}
+  storageClassName: {{ .Values.typesense.storage.storageClass }}
+  {{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "laravel.fullname" . }}-typesense
+spec:
+  selector:
+    app: {{ template "laravel.fullname" . }}-typesense
+  ports:
+    - port: 8108
+      targetPort: 8108
+      name: http
+{{- end }}
