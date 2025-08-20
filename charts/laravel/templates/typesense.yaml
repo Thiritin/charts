@@ -9,6 +9,8 @@ metadata:
     secrets.infisical.com/auto-reload: "true"
 spec:
   replicas: {{ .Values.typesense.replicaCount }}
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: {{ include "laravel.fullname" . }}-typesense
