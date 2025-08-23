@@ -98,6 +98,10 @@ infisical:
 
 ingress:
   host: ef-streaming.eurofurence.org
+  # Alternative: use hosts for multiple hosts
+  # hosts:
+  #   - ef-streaming.eurofurence.org
+  #   - another-domain.com
   pathPrefix: ""  # Set to "/your-app" to host under domain.com/your-app
   annotations: {}
 
