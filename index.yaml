@@ -40,6 +40,21 @@ entries:
   laravel:
   - apiVersion: v2
     appVersion: 1.16.0
+    created: "2026-01-24T16:56:20.019887394Z"
+    dependencies:
+    - condition: valkey.enabled
+      name: valkey
+      repository: https://valkey-io.github.io/valkey-helm
+      version: 0.9.0
+    description: A Helm chart for Kubernetes
+    digest: 2a6751544b987a7432666db0f15fd0f4ff072d96037ea71fc55d792448533e72
+    name: laravel
+    type: application
+    urls:
+    - https://github.com/Thiritin/charts/releases/download/laravel-0.3.0/laravel-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
+    appVersion: 1.16.0
     created: "2025-08-23T14:46:13.017697746Z"
     dependencies:
     - condition: redis.enabled
@@ -273,4 +288,4 @@ entries:
     urls:
     - https://github.com/Thiritin/laravel-helm-deployment/releases/download/laravel-0.1.0/laravel-0.1.0.tgz
     version: 0.1.0
-generated: "2025-08-23T14:46:13.017811459Z"
+generated: "2026-01-24T16:56:20.019988194Z"
